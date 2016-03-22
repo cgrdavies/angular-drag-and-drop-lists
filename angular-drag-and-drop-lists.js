@@ -92,6 +92,13 @@ angular.module('dndLists', [])
         // Serialize the data associated with this element. IE only supports the Text drag type
         event.dataTransfer.setData("Text", angular.toJson(scope.$eval(attr.dndDraggable)));
 
+        //add the parent to the drag element, if applicable
+        if (attr.dndIncludeParent) {
+          var nearestLi = element.parent().parent()[0];
+          var liWidth = nearestLi.offsetWidth;
+          event.dataTransfer.setDragImage(nearestLi, liWidth, 0);
+        }
+
         // Only allow actions specified in dnd-effect-allowed attribute
         event.dataTransfer.effectAllowed = attr.dndEffectAllowed || "move";
 
